@@ -21,11 +21,12 @@ class Neofoam(CMakePackage):
     variant("benchmarks", default=False, description="")
     variant("cuda", default=False, description="Compile with CUDA support")
     variant("hip", default=False, description="Compile with HIP support")
+    variant("openfoam", default=False, description="Use OpenFOAM via spack")
 
     depends_on("c", type="build")
     depends_on("cxx", type="build")
     depends_on("neon")
-    depends_on("openfoam")
+    depends_on("openfoam", when="+openfoam")
 
     def cmake_args(self):
         return [
