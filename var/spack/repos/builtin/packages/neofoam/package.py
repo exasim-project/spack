@@ -16,11 +16,11 @@ class Neofoam(CMakePackage):
 
     version("main", branch="main")
 
+    variant("test", default=False, description="")
+    variant("examples", default=True, description="")
+    variant("benchmarks", default=False, description="")
     variant("cuda", default=False, description="Compile with CUDA support")
     variant("hip", default=False, description="Compile with HIP support")
-    variant("test", default=False, description="")
-    variant("examples", default=False, description="")
-    variant("benchmarks", default=False, description="")
 
     depends_on("c", type="build")
     depends_on("cxx", type="build")
@@ -29,9 +29,9 @@ class Neofoam(CMakePackage):
 
     def cmake_args(self):
         return [
-            '-DFOAMADAPTER_BUILD_TESTS=%s' % ('+test' in self.spec),
-            '-DFOAMADAPTER_BUILD_EXAMPLES=%s' % ('+examples' in self.spec),
-            '-DFOAMADAPTER_BUILD_BENCHMARKS=%s' % ('+benchmarks' in self.spec),
-            '-DKokkos_ENABLE_CUDA=%s' % ('+cuda' in self.spec),
-            '-DKokkos_ENABLE_HIP=%s' % ('+hip' in self.spec),
+            self.define_from_variant("FOAMADAPTER_BUILD_TESTS", "test"),
+            self.define_from_variant("FOAMADAPTER_BUILD_EXAMPLES", "examples"),
+            self.define_from_variant("FOAMADAPTER_BUILD_BENCHMARKS", "benchmarks"),
+            self.define_from_variant("Kokkos_ENABLE_CUDA", "cuda"),
+            self.define_from_variant("Kokkos_ENABLE_HIP", "hip"),
         ]
