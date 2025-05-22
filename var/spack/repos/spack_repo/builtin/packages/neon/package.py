@@ -49,6 +49,7 @@ class Neon(CMakePackage):
             self.define_from_variant("NeoN_BUILD_TESTS", "test"),
             self.define_from_variant("Kokkos_ENABLE_CUDA", "cuda"),
             self.define_from_variant("Kokkos_ENABLE_HIP", "hip"),
+            self.define("CMAKE_CXX_COMPILER", self["kokkos"].kokkos_cxx),
             self.define("CPM_USE_LOCAL_PACKAGES", True),
         ]
         return args
